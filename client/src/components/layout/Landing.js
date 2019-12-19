@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-const MyComponent = () => {
+const Landing = ({ auth: { isAuthenticated, loading }}) => {
+    console.log(isAuthenticated);
+    const authLinks = (
+        <div className="buttons">
+            <Link to="/register" className="btn btn-primary">Sign Up</Link>
+            <Link to="/login" className="btn btn-light">Login</Link>
+        </div>
+    );
+
     return (
         <section className="landing">
             <div className="dark-overlay">
@@ -11,14 +20,16 @@ const MyComponent = () => {
                         Create a developer profile/portfolio, share posts and get help from
                         other developers
                     </p>
-                    <div className="buttons">
-                        <Link to="/register" className="btn btn-primary">Sign Up</Link>
-                        <Link to="/login" className="btn btn-light">Login</Link>
-                    </div>
+                    { !loading && (<Fragment>{ !isAuthenticated && authLinks }</Fragment>)}
                 </div>
             </div>
         </section>
     );
 };
 
-export default MyComponent;
+const mapStateToProps = state => ({
+    auth: state.auth
+})
+
+
+export default connect(mapStateToProps)(Landing);
