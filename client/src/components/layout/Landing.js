@@ -1,15 +1,11 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const Landing = ({ auth: { isAuthenticated, loading }}) => {
-    console.log(isAuthenticated);
-    const authLinks = (
-        <div className="buttons">
-            <Link to="/register" className="btn btn-primary">Sign Up</Link>
-            <Link to="/login" className="btn btn-light">Login</Link>
-        </div>
-    );
+const Landing = ({ isAuthenticated }) => {
+    if (isAuthenticated) {
+        return <Redirect to='/dashboard' />
+    }
 
     return (
         <section className="landing">
@@ -20,7 +16,10 @@ const Landing = ({ auth: { isAuthenticated, loading }}) => {
                         Create a developer profile/portfolio, share posts and get help from
                         other developers
                     </p>
-                    { !loading && (<Fragment>{ !isAuthenticated && authLinks }</Fragment>)}
+                    <div className="buttons">
+                        <Link to="/register" className="btn btn-primary">Sign Up</Link>
+                        <Link to="/login" className="btn btn-light">Login</Link>
+                    </div>
                 </div>
             </div>
         </section>
@@ -28,8 +27,8 @@ const Landing = ({ auth: { isAuthenticated, loading }}) => {
 };
 
 const mapStateToProps = state => ({
-    auth: state.auth
-})
+    isAuthenticated: state.auth.isAuthenticated
+});
 
 
 export default connect(mapStateToProps)(Landing);
