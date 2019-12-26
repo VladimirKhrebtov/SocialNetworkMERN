@@ -50,7 +50,7 @@ router.post(
 
     const {
       company,
-      websites,
+      website,
       location,
       bio,
       status,
@@ -67,7 +67,7 @@ router.post(
     profileFields.social = {};
     profileFields.user = req.user.id;
     if (company) profileFields.company = company;
-    if (websites) profileFields.websites = websites;
+    if (website) profileFields.website = website;
     if (location) profileFields.location = location;
     if (bio) profileFields.bio = bio;
     if (status) profileFields.status = status;
